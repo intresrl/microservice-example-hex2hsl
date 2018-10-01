@@ -35,11 +35,11 @@ app.get('/hsl2hex', function (req, res) {
   var saturation = parseInt(req.query.saturation, 10)
   var lightness = parseInt(req.query.lightness, 10)
 
-  res.send(hsl2hex({'hue': hue, 'saturation': saturation, 'lightness': lightness}))
+  res.send(hsl2hex({ 'hue': hue, 'saturation': saturation, 'lightness': lightness }))
 })
 
 app.get('/hex2hsl', function (req, res) {
-  res.send(hex2hsl({'hex': req.query.hex}))
+  res.send(hex2hsl({ 'hex': req.query.hex }))
 })
 
 app.listen(config.port)
