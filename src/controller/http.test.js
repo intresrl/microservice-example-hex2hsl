@@ -23,11 +23,11 @@ import config from './http.config.json'
 import { tests } from '../test-data/colors'
 
 chai.config.includeStack = true
-chai.should()
+const should = chai.should()
 chai.use(chaiHttp)
 
 describe('Color Converter hsl2hex REST API', () => {
-  const url = process.env.npm_config_hsl2hex_test_url || `http://localhost:${config.port}`
+  const url = process.argv.find(arg => arg.startsWith('--test_url')).substr(11) || `http://localhost:${config.port}`
   console.log('Test URL: ' + url)
 
   describe('Convert from HSL to HEX', () => {
@@ -36,8 +36,9 @@ describe('Color Converter hsl2hex REST API', () => {
         chai.request(url)
           .get('/hsl2hex')
           .query(test.hslValue)
-          .then(res => {
-            res.status.should.equal(200)
+          .end((err, res) => {
+            should.not.exist(err)
+            res.should.have.status(200)
             res.body.should.deep.equal(test.hexValue)
             done()
           })
@@ -51,8 +52,9 @@ describe('Color Converter hsl2hex REST API', () => {
         chai.request(url)
           .get('/hex2hsl')
           .query(test.hexValue)
-          .then(res => {
-            res.status.should.equal(200)
+          .end((err, res) => {
+            should.not.exist(err)
+            res.should.have.status(200)
             res.body.should.deep.equal(test.hslValue)
             done()
           })
