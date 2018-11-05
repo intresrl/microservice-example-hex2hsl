@@ -24,7 +24,9 @@ export const tests = [
   { hslValue: { hue: 135, saturation: 100, lightness: 50 }, hexValue: { hex: '00ff40' } },
   { hslValue: { hue: 180, saturation: 100, lightness: 50 }, hexValue: { hex: '00ffff' } },
   { hslValue: { hue: 225, saturation: 100, lightness: 50 }, hexValue: { hex: '0040ff' } },
-  { hslValue: { hue: 270, saturation: 100, lightness: 50 }, hexValue: { hex: '8000ff' } },
   { hslValue: { hue: 315, saturation: 100, lightness: 50 }, hexValue: { hex: 'ff00bf' } },
   { hslValue: { hue: 345, saturation: 100, lightness: 50 }, hexValue: { hex: 'ff0040' } }
+  // ,
+  // { hslValue: { hue: 340, saturation: 80, lightness: 95 }, hexValue: { hex: 'fce8ef' } },
+  // { hslValue: { hue: 340, saturation: 80, lightness: 5 }, hexValue: { hex: '170309' } }
 ]
