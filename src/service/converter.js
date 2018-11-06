@@ -17,14 +17,27 @@
  *
  */
 
-import convert from 'color-convert'
+// import convert from 'color-convert'
 
 export function hsl2hex (hsl) {
-  const { hue, saturation, lightness } = hsl
-  return { 'hex': convert.hsl.hex(hue, saturation, lightness).toLowerCase() }
+  // TODO Esercizio 2B: nuova branch da master (stesso di 2A)
+  // implementare il converter poi commit e push
+  // fare merge da GitLab-CE
+
+  // const { hue, saturation, lightness } = hsl
+  // return { 'hex': convert.hsl.hex(hue, saturation, lightness).toLowerCase() }
 }
 
 export function hex2hsl (hex) {
-  const hsl = convert.hex.hsl(hex.hex)
-  return { 'hue': hsl[0], 'saturation': hsl[1], 'lightness': hsl[2] }
+  // TODO Esercizio 3B: nuova branch da master
+  // implementare converter e test
+  // fare merge da GitLab-CE
+
+  // const hsl = convert.hex.hsl(hex.hex)
+  // return { 'hue': hsl[0], 'saturation': hsl[1], 'lightness': hsl[2] }
+
+  // TODO Esercizio 5A: nuova branch da master
+  // fare cherry-pick (o similari) per riportare i valori di test in errore
+  // gestire il caso limite e "rendere verdi" i test
+  // nessun merge su master!!!
 }

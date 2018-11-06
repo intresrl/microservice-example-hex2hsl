@@ -32,52 +32,52 @@ node('schiavo') {
     try {
         stage('Checkout'){
             checkout scm
-            if (env.BRANCH_NAME != 'master') {
-                print "Checkout branch : ${env.BRANCH_NAME} and merge to master"
-                sh "git checkout master"
-                print "Pull last commits"
-                sh "git pull"
-                print "Create new branch : master-${env.BRANCH_NAME}"
-                sh "git branch master-${env.BRANCH_NAME}"
-                print "Checkout branch : master-${env.BRANCH_NAME}"
-                sh "git checkout master-${env.BRANCH_NAME}"
-                print "Merging feature branch : ${env.BRANCH_NAME}"
-                sh "git merge --no-commit origin/${env.BRANCH_NAME}"
+            /* TODO Esercizio 1:
+             * se la branch e' differente da master:
+             * checkout e pull di master
+             * creare da master una branch temporanea
+             * fare merge con la branch corrente
+             * alla fine ricordarsi di fare cleanup della branch temporanea!!!
+             */
 
-                properties([pipelineTriggers([upstream(threshold: hudson.model.Result.SUCCESS, upstreamProjects: "${pipelineName}/master")])])
-            }
+             // TODO Esercizio 4: aggiungere "upstream trigger"
+             // properties([pipelineTriggers([upstream(threshold: hudson.model.Result.SUCCESS, upstreamProjects: "${pipelineName}/master")])])
+
         }
 
         stage('Install Dependencies'){
-            sh "npm install"
+
         }
 
         stage('Static Code Analisys'){
-            sh "npm run lint"
+
         }
 
         stage('Build'){
-            sh "npm run build"
+
         }
 
         stage('Test Pre Deploy'){
+/*
             sh "npm run test:pre-deploy"
 
             step([$class: 'XUnitBuilder',
                 thresholds: [[$class: 'FailedThreshold', unstableThreshold: '1']],
                 tools: [[$class: 'JUnitType', pattern: 'test-report/test-pre-deploy-report.xml']]])
+*/
         }
 
         stage('Build Docker Image') {
-            sh "docker -H tcp://192.168.50.91:2375 build -t 192.168.50.91:5000/${pipelineName}-${env.BRANCH_NAME}:${env.BUILD_ID} -t 192.168.50.91:5000/${pipelineName}-${env.BRANCH_NAME}:latest ."
+//            sh "docker -H tcp://192.168.50.91:2375 build -t 192.168.50.91:5000/${pipelineName}-${env.BRANCH_NAME}:${env.BUILD_ID} -t 192.168.50.91:5000/${pipelineName}-${env.BRANCH_NAME}:latest ."
         }
 
         stage('Push to Docker Resgistry') {
-            sh "docker -H tcp://192.168.50.91:2375 push 192.168.50.91:5000/${pipelineName}-${env.BRANCH_NAME}:${env.BUILD_ID}"
-            sh "docker -H tcp://192.168.50.91:2375 push 192.168.50.91:5000/${pipelineName}-${env.BRANCH_NAME}:latest"
+//            sh "docker -H tcp://192.168.50.91:2375 push 192.168.50.91:5000/${pipelineName}-${env.BRANCH_NAME}:${env.BUILD_ID}"
+//            sh "docker -H tcp://192.168.50.91:2375 push 192.168.50.91:5000/${pipelineName}-${env.BRANCH_NAME}:latest"
         }
 
         stage ('Deploy and Run') {
+/*
             if (env.BRANCH_NAME == 'master') {
                 print "Deploy docker container to : staging environmet"
                 sh "ansible-playbook -i /ansible/inventory/hosts.yml /ansible/hex2hsl.yml --limit staging"
@@ -85,9 +85,11 @@ node('schiavo') {
                 print "Deploy docker container to : testing environmet"
                 sh "ansible-playbook -i /ansible/inventory/hosts.yml --extra-vars 'hex2hsl_branch=${env.BRANCH_NAME} hex2hsl_port=${test_port}' /ansible/hex2hsl.yml --limit testing"
             }
+*/
         }
 
         stage('Test post-deploy') {
+/*
             def test_url = ''
             if (env.BRANCH_NAME == 'master') {
                 test_url = 'http://192.168.50.93:3100'
@@ -99,31 +101,21 @@ node('schiavo') {
             step([$class: 'XUnitBuilder',
                 thresholds: [[$class: 'FailedThreshold', unstableThreshold: '1']],
                 tools: [[$class: 'JUnitType', pattern: 'test-report/test-post-deploy-report.xml']]])
+*/
         }
 
         stage('Cleanup') {
-            if (env.BRANCH_NAME != 'master') {
-                sh "git checkout master"
-                sh "git branch -D master-${env.BRANCH_NAME}"
-            }
-
             sh "rm node_modules -rf"
 
-            sh "docker -H tcp://192.168.50.91:2375 rmi 192.168.50.91:5000/${pipelineName}-${env.BRANCH_NAME}:${env.BUILD_ID}"
-            sh "docker -H tcp://192.168.50.91:2375 rmi 192.168.50.91:5000/${pipelineName}-${env.BRANCH_NAME}:latest"
-
+//            sh "docker -H tcp://192.168.50.91:2375 rmi 192.168.50.91:5000/${pipelineName}-${env.BRANCH_NAME}:${env.BUILD_ID}"
+//            sh "docker -H tcp://192.168.50.91:2375 rmi 192.168.50.91:5000/${pipelineName}-${env.BRANCH_NAME}:latest"
         }
 
     } catch (err){
-        if (env.BRANCH_NAME != 'master') {
-            sh "git checkout master"
-            sh "git branch -D master-${env.BRANCH_NAME}"
-        }
-
         sh "rm node_modules -rf"
 
-        sh "docker -H tcp://192.168.50.91:2375 rmi 192.168.50.91:5000/${pipelineName}-${env.BRANCH_NAME}:${env.BUILD_ID}"
-        sh "docker -H tcp://192.168.50.91:2375 rmi 192.168.50.91:5000/${pipelineName}-${env.BRANCH_NAME}:latest"
+//        sh "docker -H tcp://192.168.50.91:2375 rmi 192.168.50.91:5000/${pipelineName}-${env.BRANCH_NAME}:${env.BUILD_ID}"
+//        sh "docker -H tcp://192.168.50.91:2375 rmi 192.168.50.91:5000/${pipelineName}-${env.BRANCH_NAME}:latest"
 
         throw err
     }
