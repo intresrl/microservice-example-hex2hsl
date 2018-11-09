@@ -108,6 +108,7 @@ node('schiavo') {
         }
 
         stage('Cleanup') {
+            sh "npm config delete ${pipelineName}:test_url"
             sh "rm node_modules -rf"
 
 //            sh "docker -H tcp://192.168.50.91:2375 rmi 192.168.50.91:5000/${pipelineName}-${env.BRANCH_NAME}:${env.BUILD_ID}"
@@ -115,6 +116,7 @@ node('schiavo') {
         }
 
     } catch (err){
+        sh "npm config delete ${pipelineName}:test_url"
         sh "rm node_modules -rf"
 
 //        sh "docker -H tcp://192.168.50.91:2375 rmi 192.168.50.91:5000/${pipelineName}-${env.BRANCH_NAME}:${env.BUILD_ID}"
