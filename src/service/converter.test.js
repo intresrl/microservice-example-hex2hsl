@@ -19,7 +19,7 @@
 
 import chai from 'chai'
 // import { hex2hsl, hsl2hex } from './converter.js'
-import { hshsl2hex } from './converter.js'
+import { hsl2hex } from './converter.js'
 import { tests } from '../test-data/colors'
 
 chai.config.includeStack = true
