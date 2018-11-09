@@ -18,8 +18,7 @@
  */
 
 import chai from 'chai'
-// import { hex2hsl, hsl2hex } from './converter.js'
-import { hsl2hex } from './converter.js'
+import { hex2hsl, hsl2hex } from './converter.js'
 import { tests } from '../test-data/colors'
 
 chai.config.includeStack = true
@@ -42,11 +41,11 @@ describe('Color Converter hsl2hex', () => {
   // implementare converter e test
   // fare merge da GitLab-CE
 
-  // describe('Convert from HEX to HSL', () => {
-  //   tests.forEach((test) => {
-  //     it(`hex2hsl(${JSON.stringify(test.hexValue)} should equal ${JSON.stringify(test.hslValue)})`, () => {
-  //       hex2hsl(test.hexValue).should.deep.equal(test.hslValue)
-  //     })
-  //   })
-  // })
+  describe('Convert from HEX to HSL', () => {
+    tests.forEach((test) => {
+      it(`hex2hsl(${JSON.stringify(test.hexValue)} should equal ${JSON.stringify(test.hslValue)})`, () => {
+        hex2hsl(test.hexValue).should.deep.equal(test.hslValue)
+      })
+    })
+  })
 })
