@@ -33,8 +33,8 @@ export function hex2hsl (hex) {
   // implementare converter e test
   // fare merge da GitLab-CE
 
-  // const hsl = convert.hex.hsl(hex.hex)
-  // return { 'hue': hsl[0], 'saturation': hsl[1], 'lightness': hsl[2] }
+  const hsl = convert.hex.hsl(hex.hex)
+  return { 'hue': hsl[0], 'saturation': hsl[1], 'lightness': hsl[2] }
 
   // TODO Esercizio 5A: nuova branch da master
   // fare cherry-pick (o similari) per riportare i valori di test in errore
