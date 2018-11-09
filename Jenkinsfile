@@ -46,25 +46,23 @@ node('schiavo') {
         }
 
         stage('Install Dependencies'){
-
+            sh "npm install"
         }
 
         stage('Static Code Analisys'){
-
+            sh "npm run lint"
         }
 
         stage('Build'){
-
+            sh "npm run build"
         }
 
         stage('Test Pre Deploy'){
-/*
             sh "npm run test:pre-deploy"
 
             step([$class: 'XUnitBuilder',
                 thresholds: [[$class: 'FailedThreshold', unstableThreshold: '1']],
                 tools: [[$class: 'JUnitType', pattern: 'test-report/test-pre-deploy-report.xml']]])
-*/
         }
 
         stage('Build Docker Image') {
