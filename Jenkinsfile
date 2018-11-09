@@ -32,13 +32,18 @@ node('schiavo') {
     try {
         stage('Checkout'){
             checkout scm
-            /* TODO Esercizio 1:
-             * se la branch e' differente da master:
-             * checkout e pull di master
-             * creare da master una branch temporanea
-             * fare merge con la branch corrente
-             * alla fine ricordarsi di fare cleanup della branch temporanea!!!
-             */
+            if (env.BRANCH_NAME != 'master') {
+                print "Checkout branch : ${env.BRANCH_NAME} and merge to master"
+                sh "git checkout master"
+                print "Pull last commits"
+                sh "git pull"
+                print "Create new branch : master-${env.BRANCH_NAME}"
+                sh "git branch master-${env.BRANCH_NAME}"
+                print "Checkout branch : master-${env.BRANCH_NAME}"
+                sh "git checkout master-${env.BRANCH_NAME}"
+                print "Merging feature branch : ${env.BRANCH_NAME}"
+                sh "git merge --no-commit origin/${env.BRANCH_NAME}"
+            }
 
              // TODO Esercizio 4: aggiungere "upstream trigger"
              // properties([pipelineTriggers([upstream(threshold: hudson.model.Result.SUCCESS, upstreamProjects: "${pipelineName}/master")])])
