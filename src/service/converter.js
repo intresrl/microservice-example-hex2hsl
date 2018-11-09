@@ -17,15 +17,15 @@
  *
  */
 
-// import convert from 'color-convert'
+import convert from 'color-convert'
 
 export function hsl2hex (hsl) {
   // TODO Esercizio 2B: nuova branch da master (stesso di 2A)
   // implementare il converter poi commit e push
   // fare merge da GitLab-CE
 
-  // const { hue, saturation, lightness } = hsl
-  // return { 'hex': convert.hsl.hex(hue, saturation, lightness).toLowerCase() }
+  const { hue, saturation, lightness } = hsl
+  return { 'hex': convert.hsl.hex(hue, saturation, lightness).toLowerCase() }
 }
 
 export function hex2hsl (hex) {
